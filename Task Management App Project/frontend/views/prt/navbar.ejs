@@ -1,0 +1,66 @@
+<nav class="navbar">
+    <div class="container">
+        <a href="/" class="nav-brand">
+            <i class="fas fa-layer-group"></i>
+            <span>TaskMaster</span>
+        </a>
+
+        <div class="nav-menu">
+            <% if (typeof user !=='undefined' && user) { %>
+                <a href="/tasks" class="nav-link">Dashboard</a>
+                <% if (user.role==='admin' ) { %>
+                    <a href="/tasks?all=true" class="nav-link">All Tasks</a>
+                    <% } %>
+                        <a href="/categories" class="nav-link">Categories</a>
+
+                        <div class="profile-wrap">
+                            <div class="profile-btn" id="profToggle">
+                                <div
+                                    style="width: 32px; height: 32px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.8rem;">
+                                    <%= user.username.charAt(0).toUpperCase() %>
+                                </div>
+                                <span style="font-weight: 700; font-size: 0.85rem;">
+                                    <%= user.username %>
+                                </span>
+                                <i class="fas fa-chevron-down" style="font-size: 0.6rem; color: var(--text-muted);"></i>
+                            </div>
+
+                            <div class="dropdown-box" id="profMenu">
+                                <div
+                                    style="padding: 0.5rem 1rem; border-bottom: 1px solid var(--border); margin-bottom: 0.5rem;">
+                                    <p
+                                        style="font-size: 0.65rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">
+                                        Your Role</p>
+                                    <p style="font-size: 0.8rem; font-weight: 700; color: var(--primary);">
+                                        <%= user.role.toUpperCase() %>
+                                    </p>
+                                </div>
+                                <a href="/tasks" class="dropdown-link"><i class="fas fa-tasks"></i> My Tasks</a>
+                                <a href="/categories" class="dropdown-link"><i class="fas fa-tag"></i> Categories</a>
+                                <a href="/logout" class="dropdown-link" style="color: var(--danger);"><i
+                                        class="fas fa-sign-out-alt"></i> Logout</a>
+                            </div>
+                        </div>
+                        <% } else { %>
+                            <a href="/login" class="nav-link">Login</a>
+                            <a href="/register" class="btn btn-primary">Start for Free</a>
+                            <% } %>
+        </div>
+    </div>
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const btn = document.getElementById('profToggle');
+        const menu = document.getElementById('profMenu');
+        if (btn && menu) {
+            btn.onclick = (e) => {
+                e.stopPropagation();
+                menu.classList.toggle('active');
+            }
+            window.onclick = () => menu.classList.remove('active');
+        }
+    });
+</script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
